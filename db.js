@@ -5,8 +5,7 @@ const connection = mysql.createConnection({
     host: 'gmd.cyzu8qfumgjc.us-east-2.rds.amazonaws.com',
     user: 'majkellvz',
     password: 'Dejvi18.',
-    database: 'gmd',
-    connectTimeout: 20000
+    database: 'gmd'
 });
 
 connection.connect(error => {
