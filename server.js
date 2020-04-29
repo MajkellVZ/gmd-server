@@ -16,6 +16,6 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/media', require('./routes/api/media'));
 app.use('/api/filter', require('./routes/api/filter'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => console.log('server started ' + PORT));
