@@ -26,7 +26,7 @@ Orders.create = (newOrder) => {
 Orders.getAll = (page) => {
     return new Promise((resolve, reject) => {
         sql.query("SELECT orders.id, products.name, orders.quantity, orders.full_name, orders.email, orders.phone, orders.address FROM orders" +
-            " INNER JOIN products ON orders.product_id = products.id ORDER BY orders.id DESC LIMIT ?,10", (parseInt(page) - 1) * 10,(err, res) => {
+            " INNER JOIN products ON orders.product_id = products.id ORDER BY orders.id DESC LIMIT ?,10", [(parseInt(page) - 1) * 10],(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);

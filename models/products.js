@@ -54,7 +54,7 @@ Products.getAll = () => {
 
 Products.getAllByPage = (page) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM products LIMIT ?,10`, (parseInt(page) - 1) * 10, (err, res) => {
+        sql.query("SELECT * FROM products LIMIT ?,10", [(parseInt(page) - 1) * 10], (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);
@@ -106,7 +106,7 @@ Products.remove = (id, result) => {
 
 Products.count = (search_term) => {
     return new Promise((resolve, reject) => {
-        sql.query("SELECT COUNT(id) AS count FROM products where name like CONCAT('%',?,'%')", search_term, (err, res) => {
+        sql.query("SELECT COUNT(id) AS count FROM products where name like CONCAT('%',?,'%')", [search_term], (err, res) => {
             if (err) {
                 return reject(err);
             }
@@ -152,7 +152,7 @@ Products.getByID = (productId) => {
 
 Products.findByCategory = (category) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT * FROM products WHERE category = ?`, category, (err, res) => {
+        sql.query("SELECT * FROM products WHERE category = ?", category, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);
