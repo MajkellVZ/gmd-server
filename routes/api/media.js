@@ -3,6 +3,12 @@ const router = express.Router();
 const {check, validationResult} = require('express-validator');
 const auth = require('../../middleware/auth');
 const multer = require('multer');
+const path = require('path');
+
+const app = express();
+
+const uploads = path.join(__dirname,'../../uploads');
+app.use(express.static(uploads));
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -78,7 +84,7 @@ router.get('/:path', async (req, res) => {
         return res.status(400).json({msg: 'Media not found'});
     }
 
-    await res.sendFile(`C:/Users/veiza/gmd/uploads/${path}`);
+    await res.sendFile(`${uploads}/${path}`);
 });
 
 router.delete('/:id', auth, async (req, res) => {
