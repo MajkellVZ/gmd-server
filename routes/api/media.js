@@ -84,6 +84,8 @@ router.get('/:path', async (req, res) => {
         return res.status(400).json({msg: 'Media not found'});
     }
 
+    console.log(uploads)
+
     await res.sendFile(`${uploads}/${path}`);
 });
 
