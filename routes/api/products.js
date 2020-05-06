@@ -5,13 +5,13 @@ const auth = require('../../middleware/auth');
 
 const Products = require('../../models/products');
 
-router.post('/', [
+router.post('/', [auth, [
     check('name', 'Kerkohet Emri').not().isEmpty(),
     check('description', 'Kerkohet Pershkrimi').not().isEmpty(),
     check('price', 'Kerkohet Çmimi').not().isEmpty(),
     check('quantity', 'Kerkohet Sasia').not().isEmpty(),
     check('category', 'Kerkohet Kategoria').not().isEmpty(),
-], async (req, res) => {
+]], async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
     res.send({data: products})
 });
 
-router.get('/admin', async (req, res) => {
+router.get('/admin', auth, async (req, res) => {
     const search_term = "";
 
     const page = req.query.page || 1;
@@ -145,14 +145,14 @@ router.delete('/:id', auth, async (req, res) => {
     });
 });
 
-router.put('/important/:id', async (req, res) => {
+router.put('/important/:id', auth, async (req, res) => {
     const {id} = req.params;
 
     const products = await Products.makeImportant(id);
     await res.send(products);
 });
 
-router.put('/unimportant/:id', async (req, res) => {
+router.put('/unimportant/:id', auth, async (req, res) => {
     const {id} = req.params;
 
     const products = await Products.makeUnimportant(id);

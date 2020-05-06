@@ -29,7 +29,7 @@ router.get('/important', async (req, res) => {
     await res.send(products)
 });
 
-router.get('/orders', async (req, res) => {
+router.get('/orders', auth, async (req, res) => {
     const {search_term} = req.query;
     const page = req.query.page || 1;
     const limit = 10;

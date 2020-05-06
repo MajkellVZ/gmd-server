@@ -45,23 +45,23 @@ router.post('/', [
     await res.send(response);
 });
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     const page = req.query.page || 1;
     const limit = 10;
     const total = await Orders.count();
-    const total_pages = Math.ceil(total/limit);
+    const total_pages = Math.ceil(total / limit);
 
     const orders = await Orders.getAll(page);
     await res.send({page, total, total_pages, orders});
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     const {id} = req.params;
     const orders = await Orders.getById(id);
     await res.send(orders);
 });
 
-router.put('/:id', [
+router.put('/:id', [auth, [
     check('product_id', {id: '5', text: 'Product Required'}).not().isEmpty(),
     check('quantity', {id: '7', text: 'Quantity Required'}).not().isEmpty(),
     check('full_name', {id: '8', text: 'Full Name Required'}).not().isEmpty(),
@@ -69,7 +69,7 @@ router.put('/:id', [
     check('email', {id: '9', text: 'Email Required'}).isEmail(),
     check('phone', {id: '10', text: 'Category Required'}).not().isEmpty(),
     check('address', {id: '10', text: 'Address Required'}).not().isEmpty(),
-], async (req, res) => {
+]], async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -92,7 +92,7 @@ router.put('/:id', [
     await res.send(order);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     const {id} = req.params;
     const orders = await Orders.remove(id);
     await res.send(orders);
