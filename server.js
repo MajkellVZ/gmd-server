@@ -1,5 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const CronJob = require("cron").CronJob;
+const restartCommand = "pm2 restart 0";
+const listCommand = "pm2 list";
+const { exec } = require('child_process');
 
 const app = express();
 
@@ -19,3 +23,28 @@ app.use('/api/filter', require('./routes/api/filter'));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log('server started ' + PORT));
+
+const restartApp = function () {
+    exec(restartCommand, (err, stdout, stderr) => {
+        if (!err && !stderr) {
+            console.log(new Date(), `App restarted!!!`);
+            listApps();
+        }
+        else if (err || stderr) {
+            console.log(new Date(), `Error in executing ${restartCommand}`, err || stderr);
+        }
+    });
+}
+
+function listApps() {
+    exec(listCommand, (err, stdout, stderr) => {
+        // handle err if you like!
+        console.log(`pm2 list`);
+        console.log(`${stdout}`);
+    });
+}
+
+new CronJob('0 0 17 * * *', function() {
+    console.log('5 pm Los_Angeles time, restarting the gmd-server');
+    restartApp();
+}, null, true, 'America/Los_Angeles');
