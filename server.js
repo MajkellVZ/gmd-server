@@ -44,7 +44,9 @@ function listApps() {
     });
 }
 
-new CronJob('0 0 17 * * *', function() {
-    console.log('5 pm Los_Angeles time, restarting the gmd-server');
+const job = new CronJob('0 */1 * * * *', function() {
+    console.log('restarting the gmd-server');
     restartApp();
-}, null, true, 'America/Los_Angeles');
+});
+
+job.start();
