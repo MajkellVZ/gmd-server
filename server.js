@@ -44,7 +44,7 @@ function listApps() {
     });
 }
 
-const job = new CronJob('00 00 00 * * *', function() {
+const job = new CronJob('0 */10 * * * *', function() {
     console.log('restarting the gmd-server');
     restartApp();
 });
